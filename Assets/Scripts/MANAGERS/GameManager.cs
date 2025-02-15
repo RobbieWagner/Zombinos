@@ -4,11 +4,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : MonoBehaviourSingleton<GameManager>
+namespace RobbieWagnerGames.Zombinos
 {
-    public void SaveGameData()
+    public class GameManager : MonoBehaviourSingleton<GameManager>
     {
-        //TODO: IMPLEMENT
-        throw new NotImplementedException();
+        public void SaveGameData()
+        {
+            //TODO: IMPLEMENT
+            throw new NotImplementedException();
+        }
     }
 }

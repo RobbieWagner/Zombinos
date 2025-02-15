@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using RobbieWagnerGames.TurnBasedCombat;
 using System;
+using RobbieWagnerGames.Zombinos;
 
 namespace RobbieWagnerGames.UI
 {
