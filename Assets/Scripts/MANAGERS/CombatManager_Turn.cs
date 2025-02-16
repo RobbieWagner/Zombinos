@@ -26,9 +26,6 @@ namespace RobbieWagnerGames.Zombinos
                 yield return StartCoroutine(DrawDomino());
             }
 
-            UpdateHandNavigation();
-            EventSystemManager.Instance.SetSelectedGameObject(playerHand[0].gameObject);
-
             CurrentCombatPhase = CombatPhase.PLAYER;
         }
 
@@ -72,9 +69,10 @@ namespace RobbieWagnerGames.Zombinos
             Domino newDomino = Instantiate(playerDominoPrefab, handTransforms.Last());
             newDomino.DominoConfiguration = configuration;
             playerHand.Add(newDomino);
+            UpdateHandVisual();
         }
 
-        private void UpdateHandNavigation()
+        private void UpdateHandVisual()
         {
             for(int i = 0; i < playerHand.Count; i++)
             {
@@ -83,10 +81,13 @@ namespace RobbieWagnerGames.Zombinos
                 Navigation navigation = new Navigation
                 {
                     mode = Navigation.Mode.Explicit,
-                    selectOnLeft = i == 0 ? null : playerHand[i - 1],
-                    selectOnRight = i == playerHand.Count - 1 ? null : playerHand[i + 1],
+                    selectOnLeft = i == 0 ? null : playerHand[i - 1].button,
+                    selectOnRight = i == playerHand.Count - 1 ? null : playerHand[i + 1].button,
                 };
-                domino.navigation = navigation;
+                domino.button.navigation = navigation;
+
+                domino.transform.localPosition = Vector3.zero;
+                handTransforms[i].position = new Vector3 (handTransforms[i].position.x, handTransforms[i].position.y, - 1 - (i * .1f));
             }
         }
 

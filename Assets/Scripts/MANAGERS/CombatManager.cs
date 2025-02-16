@@ -1,3 +1,4 @@
+using RobbieWagnerGames.Managers;
 using RobbieWagnerGames.Utilities;
 using System;
 using System.Collections;
@@ -86,6 +87,11 @@ namespace RobbieWagnerGames.Zombinos
             hordeText.text = $"{hordeCount}";
 
             StartCombat();
+
+            foreach(DominoSpace space in survivorDominoSpaces)
+                space.OnDominoSet += PlaceDomino;
+
+            InputManager.Instance.gameControls.UI.Navigate.performed += CheckNullNavigation;
         }
 
         protected virtual void StartCombatPhase(CombatPhase phase)
@@ -140,11 +146,15 @@ namespace RobbieWagnerGames.Zombinos
                     yield return StartCoroutine(RunCombatEvents(CombatEventTriggerType.SETUP_COMPLETE));
                     yield return StartCoroutine(RunCombatEvents(CombatEventTriggerType.COMBAT_STARTED));
                     break;
+                case CombatPhase.TURN_START:
+                    break;
                 case CombatPhase.PLAYER:
                     yield return StartCoroutine(RunCombatEvents(CombatEventTriggerType.PLAYER_PHASE_ENDED));
                     break;
                 case CombatPhase.EXECUTION:
                     yield return StartCoroutine(RunCombatEvents(CombatEventTriggerType.EXECUTION_PHASE_ENDED));
+                    break;
+                case CombatPhase.TURN_END:
                     break;
                 case CombatPhase.WIN:
                     yield return StartCoroutine(RunCombatEvents(CombatEventTriggerType.COMBAT_TERMINATED));

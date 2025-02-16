@@ -1,20 +1,22 @@
+using RobbieWagnerGames.Managers;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace RobbieWagnerGames.Zombinos
 {
-    public class Domino : Selectable
+    public class Domino : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
-        [SerializeField] private SpriteRenderer offenseEndImage;
+        [Header("Domino")]
+        public ButtonListener button;
+        public SpriteRenderer offenseEndImage;
         private int offenseCurrentStrength;
-        [SerializeField] private SpriteRenderer defenseEndImage;
+        public SpriteRenderer defenseEndImage;
         private int defenseCurrentStrength;
+        public Vector3 defaultScale;
 
-        [SerializeField] private DominoConfiguration dominoConfiguration;
+        public DominoConfiguration dominoConfiguration;
         public DominoConfiguration DominoConfiguration
         {
             get
@@ -30,6 +32,15 @@ namespace RobbieWagnerGames.Zombinos
             }
         }
 
+        protected void Awake()
+        {
+            button.onClick.AddListener(OnConfirmDomino);
+            button.OnButtonSelected += OnSelect;
+            button.OnButtonDeselected += OnDeselect;
+
+            transform.localScale = defaultScale;
+        }
+
         private void UpdateDomino()
         {
             if (dominoConfiguration.offenseEndType != DominoAttributeType.NONE)
@@ -41,12 +52,42 @@ namespace RobbieWagnerGames.Zombinos
                 defenseEndImage.sprite = DominoManager.GetDominoAttributeSprite(dominoConfiguration.defenseEndType);
             else
                 defenseEndImage.sprite = DominoManager.GetDominoPipSprite(dominoConfiguration.defenseEndStrength);
+
+            offenseCurrentStrength = dominoConfiguration.offenseEndStrength;
+            defenseCurrentStrength = dominoConfiguration.defenseEndStrength;
         }
 
-        public override void OnSelect(BaseEventData eventData)
+        public void OnSelect(Button button)
         {
-            base.OnSelect(eventData);
+            if (button.interactable)
+            {
+                CombatManager.Instance.SelectedDomino = this;
+                Debug.Log($"Domino selected {offenseCurrentStrength}/{defenseCurrentStrength}");
+            }
         }
 
+        public void OnDeselect(Button button)
+        {
+            if (CombatManager.Instance.SelectedDomino == this)
+                CombatManager.Instance.SelectedDomino = null;
+        }
+
+        private void OnConfirmDomino()
+        {
+            if(button.interactable)
+                CombatManager.Instance.ConfirmedDomino = this;
+        }
+
+        public void OnPointerEnter(PointerEventData eventData)
+        {
+            Debug.Log("pointer enter");
+            EventSystemManager.Instance.SetSelectedGameObject(button.gameObject);
+        }
+
+        public void OnPointerExit(PointerEventData eventData)
+        {
+            if(EventSystemManager.Instance.eventSystem.currentSelectedGameObject == button.gameObject)
+                EventSystemManager.Instance.SetSelectedGameObject(null);
+        }
     }
 }

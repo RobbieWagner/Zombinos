@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 840515559542926701}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.07, z: 1}
+  m_LocalPosition: {x: 0, y: -1.07, z: -0.001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -72,7 +72,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 8f45688b58dc9d54d9cc876da3975979, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -110,7 +110,7 @@ Transform:
   m_GameObject: {fileID: 2484151166831169598}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.07, z: 1}
+  m_LocalPosition: {x: 0, y: 1.07, z: -0.001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -156,7 +156,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 11267f1b50ac0d24080b4050f0a663c0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -179,6 +179,8 @@ GameObject:
   - component: {fileID: 5935147059688976111}
   - component: {fileID: 3677641980299116015}
   - component: {fileID: 6569690176732493748}
+  - component: {fileID: 8692203367494640076}
+  - component: {fileID: 5550214361782065158}
   m_Layer: 0
   m_Name: EnemyDomino
   m_TagString: Untagged
@@ -264,7 +266,28 @@ MonoBehaviour:
   m_GameObject: {fileID: 6106367248675769869}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1998bcc56ec87da449b59f78c3f00e85, type: 3}
+  m_Script: {fileID: 11500000, guid: 95cdb5d23a5046948ad7f6bafbe835d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  button: {fileID: 8692203367494640076}
+  offenseEndImage: {fileID: 3762790886260480112}
+  defenseEndImage: {fileID: 7867386972630460095}
+  defaultScale: {x: 0.32, y: 0.32, z: 1}
+  dominoConfiguration:
+    offenseEndType: 0
+    offenseEndStrength: 0
+    defenseEndType: 0
+    defenseEndStrength: 0
+--- !u!114 &8692203367494640076
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6106367248675769869}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98defca4e29ac0d44812b5084880f252, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
@@ -296,10 +319,51 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 1
   m_TargetGraphic: {fileID: 0}
-  offenseEndImage: {fileID: 3762790886260480112}
-  defenseEndImage: {fileID: 7867386972630460095}
-  dominoConfiguration:
-    offenseEndType: 0
-    offenseEndStrength: 0
-    defenseEndType: 0
-    defenseEndStrength: 0
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!61 &5550214361782065158
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6106367248675769869}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 2.1875, y: 4.4375}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 2.1875, y: 4.4375}
+  m_EdgeRadius: 0

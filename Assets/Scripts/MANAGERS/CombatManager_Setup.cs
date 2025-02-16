@@ -15,25 +15,25 @@ namespace RobbieWagnerGames.Zombinos
             {
                 DominoSpace survivorSpace = survivorDominoSpaces[i];
                 DominoSpace zombieSpace = zombieDominoSpaces[i];
-                survivorSpace.interactable = false;
+                survivorSpace.button.interactable = false;
 
                 Navigation survivorNavigation = new Navigation
                 {
                     mode = Navigation.Mode.Explicit,
-                    selectOnLeft = i == 0 ? null : survivorDominoSpaces[i - 1],
-                    selectOnRight = i == survivorDominoSpaces.Count - 1 ? null : survivorDominoSpaces[i + 1],
-                    selectOnUp = zombieSpace
+                    selectOnLeft = i == 0 ? null : survivorDominoSpaces[i - 1].button,
+                    selectOnRight = i == survivorDominoSpaces.Count - 1 ? null : survivorDominoSpaces[i + 1].button,
+                    selectOnUp = zombieSpace.button
                 };
-                survivorSpace.navigation = survivorNavigation;
+                survivorSpace.button.navigation = survivorNavigation;
 
                 Navigation zombieNavigation = new Navigation
                 {
                     mode = Navigation.Mode.Explicit,
-                    selectOnLeft = i == 0 ? null : zombieDominoSpaces[i - 1],
-                    selectOnRight = i == zombieDominoSpaces.Count - 1 ? null : zombieDominoSpaces[i + 1],
-                    selectOnDown = survivorSpace
+                    selectOnLeft = i == 0 ? null : zombieDominoSpaces[i - 1].button,
+                    selectOnRight = i == zombieDominoSpaces.Count - 1 ? null : zombieDominoSpaces[i + 1].button,
+                    selectOnDown = survivorSpace.button
                 };
-                survivorSpace.navigation = zombieNavigation;
+                survivorSpace.button.navigation = zombieNavigation;
             }
 
             currentSurvivors.Clear();
