@@ -8,7 +8,7 @@ using UnityEngine.UI;
 using TMPro;
 using Ink.Runtime;
 using System.Text.RegularExpressions;
-using RobbieWagnerGames.TurnBasedCombat;
+using RobbieWagnerGames.Managers;
 using System.Linq;
 
 namespace RobbieWagnerGames

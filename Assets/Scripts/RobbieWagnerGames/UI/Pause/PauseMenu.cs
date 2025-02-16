@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
-using RobbieWagnerGames.TurnBasedCombat;
+using RobbieWagnerGames.Managers;
 using System;
 using RobbieWagnerGames.Zombinos;
 

@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using TMPro;
-using RobbieWagnerGames.TurnBasedCombat;
+using RobbieWagnerGames.Managers;
 
 namespace RobbieWagnerGames.UI
 {

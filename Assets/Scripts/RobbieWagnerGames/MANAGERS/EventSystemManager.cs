@@ -2,7 +2,7 @@ using RobbieWagnerGames.Utilities;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace RobbieWagnerGames
+namespace RobbieWagnerGames.Managers
 {
     public class EventSystemManager : MonoBehaviourSingleton<EventSystemManager>
     {

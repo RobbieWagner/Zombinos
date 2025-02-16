@@ -8,14 +8,14 @@ namespace RobbieWagnerGames.Zombinos
 {
     public class DominoManager : MonoBehaviourSingleton<DominoManager>
     {
-        public Sprite GetDominoPipSprite(int pips)
+        public static Sprite GetDominoPipSprite(int pips)
         {
             return Resources.Load<Sprite>($"Sprites/Domino/pips_{pips}");
         }
 
-        public Sprite GetDominoAbilitySprite(DominoAbility ability)
+        public static Sprite GetDominoAttributeSprite(DominoAttributeType attribute)
         {
-            return Resources.Load<Sprite>($"Sprites/Domino/{ability}");
+            return Resources.Load<Sprite>($"Sprites/Domino/{attribute}");
         }
     }
 }

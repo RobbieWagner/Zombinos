@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace RobbieWagnerGames.TurnBasedCombat
+namespace RobbieWagnerGames.Managers
 {
     public class CharacterMovement2D : MonoBehaviour
     {
