@@ -8,12 +8,35 @@ namespace RobbieWagnerGames.Zombinos
 {
     public class DominoSpace : Selectable
     {
-        public Domino domino;
+        private Domino domino;
+        public Domino Domino
+        {
+            get 
+            {
+                return domino;
+            }
+            set 
+            {
+                if (domino == value)
+                    return;
+
+                if (domino != null)
+                    Destroy(domino.gameObject);
+
+                domino = value;
+                OnSetDomino();
+            }
+        }
 
         public override void OnSelect(BaseEventData eventData)
         {
             base.OnSelect(eventData);  
             Debug.Log(this.gameObject.name + " was selected");
+        }
+
+        private void OnSetDomino()
+        {
+            Domino.transform.position = new Vector3(transform.position.x, transform.position.y, Domino.transform.position.z);
         }
     }
 }

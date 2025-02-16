@@ -14,7 +14,7 @@ namespace RobbieWagnerGames.Zombinos
         [SerializeField] private SpriteRenderer defenseEndImage;
         private int defenseCurrentStrength;
 
-        private DominoConfiguration dominoConfiguration;
+        [SerializeField] private DominoConfiguration dominoConfiguration;
         public DominoConfiguration DominoConfiguration
         {
             get

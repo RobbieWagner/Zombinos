@@ -2,6 +2,7 @@ using RobbieWagnerGames.Utilities;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 namespace RobbieWagnerGames.Zombinos
@@ -25,14 +26,20 @@ namespace RobbieWagnerGames.Zombinos
         [SerializeField] private Domino enemyDominoPrefab;
         [SerializeField] private List<DominoConfiguration> baseDeck;
         private List<DominoConfiguration> currentDeck = new List<DominoConfiguration>();
-        private List<Domino> playerHand;
+        private List<DominoConfiguration> discard = new List<DominoConfiguration>();
+        private List<Domino> playerHand = new List<Domino>();
+        [SerializeField] private Transform playerHandParent;
+        [SerializeField] private Transform handTransformPrefab;
+        private List<Transform> handTransforms = new List<Transform>();
         [SerializeField] private int playerHandSize = 5;
 
         [Header("Game Board")]
         [SerializeField] private List<DominoSpace> zombieDominoSpaces;
         [SerializeField] private List<DominoSpace> survivorDominoSpaces;
-        [SerializeField] private List<SurvivorUI> survivorUIs;
-        [SerializeField] private List<Survivor> currentSurvivors;
+        [SerializeField] private List<SurvivorUI> survivorUis;
+        private List<Survivor> currentSurvivors = new List<Survivor>();
+        [SerializeField] private List<DominoConfiguration> hordeDominoOptions;
+        [SerializeField] private TextMeshProUGUI hordeText;
         [SerializeField] private int hordeCount;
         public int HordeCount
         {
@@ -47,6 +54,7 @@ namespace RobbieWagnerGames.Zombinos
 
                 hordeCount = value;
                 OnModifyHordeCount?.Invoke(hordeCount);
+                hordeText.text = $"{hordeCount}";
             }
         }
         public Action<int> OnModifyHordeCount = (int newHordeCount) => { };
@@ -68,6 +76,49 @@ namespace RobbieWagnerGames.Zombinos
             }
         }
         public Action<CombatPhase> OnCombatPhaseChange = (CombatPhase value) => { };
+
+        protected override void Awake()
+        {
+            base.Awake();
+            SetupCombatEventHandlers();
+            OnCombatPhaseChange += StartCombatPhase;
+
+            hordeText.text = $"{hordeCount}";
+
+            StartCombat();
+        }
+
+        protected virtual void StartCombatPhase(CombatPhase phase)
+        {
+            switch (phase)
+            {
+                case CombatPhase.SETUP:
+                    StartCoroutine(WaitForCombatEvents(CombatEventTriggerType.SETUP_STARTED, () => { StartCoroutine(SetupCombat()); }));
+                    break;
+                case CombatPhase.TURN_START:
+                    StartCoroutine(WaitForCombatEvents(CombatEventTriggerType.TURN_STARTED, () => { StartCoroutine(StartTurn()); }));
+                    break;
+                case CombatPhase.PLAYER:
+                    StartCoroutine(WaitForCombatEvents(CombatEventTriggerType.PLAYER_PHASE_STARTED, () => { StartCoroutine(HandlePlayerPhase()); }));
+                    break;
+                case CombatPhase.EXECUTION:
+                    StartCoroutine(WaitForCombatEvents(CombatEventTriggerType.EXECUTION_PHASE_STARTED, () => { StartCoroutine(HandleExecutionPhase()); }));
+                    break;
+                case CombatPhase.TURN_END:
+                    StartCoroutine(WaitForCombatEvents(CombatEventTriggerType.TURN_ENDED, () => { StartCoroutine(EndTurn()); }));
+                    break;
+                case CombatPhase.WIN:
+                    StartCoroutine(WaitForCombatEvents(CombatEventTriggerType.COMBAT_WON, () => { StartCoroutine(ResolveCombat(true)); }));
+                    break;
+                case CombatPhase.LOSE:
+                    StartCoroutine(WaitForCombatEvents(CombatEventTriggerType.COMBAT_LOST, () => { StartCoroutine(ResolveCombat(false)); }));
+                    break;
+                case CombatPhase.NONE:
+                    break;
+                default:
+                    throw new ArgumentException($"Invalid combatInfo phase used {phase}");
+            }
+        }
 
         public IEnumerator SetCombatPhaseCo(CombatPhase phase)
         {

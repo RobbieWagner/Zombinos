@@ -11,6 +11,7 @@ namespace RobbieWagnerGames.Zombinos
     {
         [SerializeField] private Slider hpSlider;
         [SerializeField] private TextMeshProUGUI hpText;
+        [SerializeField] private SpriteRenderer survivorSprite;
 
         private Survivor survivor = null;
         public Survivor Survivor
@@ -28,19 +29,27 @@ namespace RobbieWagnerGames.Zombinos
                     survivor.OnUpdateHealth -= UpdateHPUI;
                 
                 survivor = value;
-                UpdateHPUI(survivor.HP);
-                
-                if (survivor != null) 
+
+                if (survivor != null)
+                {
                     survivor.OnUpdateHealth += UpdateHPUI;
+                    UpdateHPUI(survivor.HP);
+                    UpdateUI();
+                }
             }
         }
        
+        private void UpdateUI()
+        {
+            if (survivor.survivorInfo != null)
+                survivorSprite.sprite = survivor.survivorInfo.survivorSprite;
+        }
 
         private void UpdateHPUI(int hp)
         {
-            hpSlider.maxValue = survivor.SurvivorInfo.maxHP;
+            hpSlider.maxValue = survivor.survivorInfo.maxHP;
             hpSlider.value = hp;
-            hpText.text = $"{hp}/{survivor.SurvivorInfo.maxHP}";
+            hpText.text = $"{hp}/{survivor.survivorInfo.maxHP}";
         }
     }
 }

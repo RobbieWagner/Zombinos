@@ -8,6 +8,8 @@ namespace RobbieWagnerGames.Zombinos
 {
     public class GameManager : MonoBehaviourSingleton<GameManager>
     {
+        public List<Survivor> playerParty;
+
         public void SaveGameData()
         {
             //TODO: IMPLEMENT

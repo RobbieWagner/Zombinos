@@ -3,27 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Survivor : MonoBehaviour
+[System.Serializable]
+public class Survivor
 {
-    [SerializeField] private SpriteRenderer survivorSprite;
-
-    [SerializeField] private SurvivorInfo survivorInfo;
-    public SurvivorInfo SurvivorInfo
-    {
-        get
-        {
-            return survivorInfo;
-        }
-        set
-        {
-            if (survivorInfo == value)
-                return;
-            survivorInfo = value;
-            
-            if(survivorInfo != null)
-                survivorSprite.sprite = survivorInfo.survivorSprite;
-        }
-    }
+    public SurvivorInfo survivorInfo;
 
     [SerializeField] private int hp;
     public int HP
@@ -41,10 +24,4 @@ public class Survivor : MonoBehaviour
         }
     }
     public Action<int> OnUpdateHealth = (int health) => { };
-
-    private void Awake()
-    {
-        if (survivorInfo != null)
-            survivorSprite.sprite = survivorInfo.survivorSprite;
-    }
 }
