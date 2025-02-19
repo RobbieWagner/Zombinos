@@ -19,7 +19,7 @@ public class Survivor
         {
             if (hp == value)
                 return;
-            hp = value;
+            hp = Math.Clamp(value, 0, survivorInfo.maxHP);
             OnUpdateHealth?.Invoke(hp);
         }
     }

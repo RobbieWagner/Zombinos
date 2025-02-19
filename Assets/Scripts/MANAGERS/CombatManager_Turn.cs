@@ -57,7 +57,7 @@ namespace RobbieWagnerGames.Zombinos
                 ShuffleDominos();
             }
 
-            DominoConfiguration dominoConfig = currentDeck[0];
+            DominoConfiguration dominoConfig = currentDeck.First();
             yield return StartCoroutine(AddDominoToHand(dominoConfig));
             currentDeck.RemoveAt(0);
         }
@@ -102,7 +102,16 @@ namespace RobbieWagnerGames.Zombinos
 
         private IEnumerator EndTurn()
         {
+            foreach (DominoSpace space in survivorDominoSpaces)
+                space.Domino = null;
             yield return null;
+
+            if (!currentSurvivors.Where(x => x.HP > 0).Any())
+                CurrentCombatPhase = CombatPhase.LOSE;
+            else if (HordeCount <= 0 && !zombieDominoSpaces.Where(x => x.Domino != null).Any())
+                CurrentCombatPhase = CombatPhase.WIN;
+            else
+                CurrentCombatPhase = CombatPhase.TURN_START;
         }
     }
 }

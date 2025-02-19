@@ -26,10 +26,11 @@ namespace RobbieWagnerGames.Zombinos
                     return;
 
                 if (domino != null)
-                    Destroy(domino.gameObject);
+                    CombatManager.Instance?.DiscardDomino(domino);
 
                 domino = value;
-                OnSetDomino();
+                if(domino != null)
+                    OnSetDomino();
                 OnDominoSet?.Invoke(domino, this);
             }
         }
@@ -45,12 +46,11 @@ namespace RobbieWagnerGames.Zombinos
 
         public void OnSelect(Button button)
         {
-            Debug.Log(this.gameObject.name + " was selected");
         }
 
         private void OnSetDomino()
         {
-            Domino.transform.parent = this.transform;
+            Domino.transform.SetParent(this.transform);
             Domino.transform.position = new Vector3(transform.position.x, transform.position.y, Domino.transform.position.z);
             Domino.button.interactable = false;
         }

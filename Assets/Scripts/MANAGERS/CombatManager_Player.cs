@@ -4,6 +4,7 @@ using RobbieWagnerGames.Utilities;
 using System;
 using System.Collections;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -11,7 +12,7 @@ namespace RobbieWagnerGames.Zombinos
 {
     public partial class CombatManager : MonoBehaviourSingleton<CombatManager>
     {
-        private bool isTurnComplete = false;
+        private bool isPlayerFinished = false;
         private Domino selectedDomino;
         public Domino SelectedDomino 
         {
@@ -42,21 +43,49 @@ namespace RobbieWagnerGames.Zombinos
             } 
         }
         public Action<Domino> OnSetSelectedDomino = (Domino domino) => { };
-        public Domino ConfirmedDomino { get; set; }
+        
+        private Domino confirmedDomino = null;
+        public Domino ConfirmedDomino
+        {
+            get
+            {
+                return confirmedDomino;
+            }
+            set
+            {
+                if (confirmedDomino == value)
+                    return;
+
+                confirmedDomino = value;
+                OnSetConfirmedDomino?.Invoke(value);
+
+                if (value != null)
+                    StartDominoPlacement();
+                else
+                {
+                    foreach (DominoSpace space in survivorDominoSpaces)
+                        space.button.interactable = false;
+                }
+            }
+        }
+        public Action<Domino> OnSetConfirmedDomino = (Domino domino) => { };
 
         private IEnumerator HandlePlayerPhase()
         {
-            isTurnComplete = false;
+            isPlayerFinished = false;
 
             StartHandSelection();
 
             InputManager.Instance.gameControls.UI.Cancel.performed += CancelSelection;
             InputManager.Instance.EnableActionMap(ActionMapName.UI.ToString());
 
-            while (!isTurnComplete)
+            while (!isPlayerFinished)
                 yield return null;
 
-            currentCombatPhase = CombatPhase.EXECUTION;
+            foreach (DominoSpace space in survivorDominoSpaces)
+                space.button.interactable = false;
+
+            CurrentCombatPhase = CombatPhase.EXECUTION;
         }
 
         private void CancelSelection(InputAction.CallbackContext context)
@@ -73,19 +102,35 @@ namespace RobbieWagnerGames.Zombinos
             if (playerHand.Contains(domino))
             {
                 playerHand.Remove(domino);
-                foreach(Transform t in handTransforms.Where(x => x.childCount == 0))
-                    Destroy(t);
+                foreach (Transform t in handTransforms.Where(x => x.childCount == 0))
+                    Destroy(t.gameObject);
+                handTransforms = handTransforms.Where(x => x.childCount > 0).ToList();
             }
 
             if (survivorDominoSpaces.Where(x => x.Domino == null).Any())
                 StartHandSelection();
             else
-                isTurnComplete = true;
+                isPlayerFinished = true;
         }
 
         private void StartHandSelection()
         {
-            EventSystemManager.Instance.SetSelectedGameObject(playerHand[0].button.gameObject);
+            ConfirmedDomino = null;
+
+            foreach (Domino handDomino in playerHand)
+                handDomino.button.interactable = true;
+
+            EventSystemManager.Instance.SetSelectedGameObject(playerHand.First().button.gameObject);
+        }
+        
+        private void StartDominoPlacement()
+        {
+            foreach (Domino handDomino in playerHand)
+                handDomino.button.interactable = false;
+            foreach (DominoSpace space in survivorDominoSpaces.Where(x => x.Domino == null))
+                space.button.interactable = true;
+
+            EventSystemManager.Instance.SetSelectedGameObject(survivorDominoSpaces.Where(x => x.Domino == null).First().button.gameObject);
         }
 
         private void CheckNullNavigation(InputAction.CallbackContext context)

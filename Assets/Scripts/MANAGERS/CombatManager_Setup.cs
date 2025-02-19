@@ -22,7 +22,8 @@ namespace RobbieWagnerGames.Zombinos
                     mode = Navigation.Mode.Explicit,
                     selectOnLeft = i == 0 ? null : survivorDominoSpaces[i - 1].button,
                     selectOnRight = i == survivorDominoSpaces.Count - 1 ? null : survivorDominoSpaces[i + 1].button,
-                    selectOnUp = zombieSpace.button
+                    selectOnUp = zombieSpace.button,
+                    selectOnDown = null
                 };
                 survivorSpace.button.navigation = survivorNavigation;
 
@@ -31,9 +32,10 @@ namespace RobbieWagnerGames.Zombinos
                     mode = Navigation.Mode.Explicit,
                     selectOnLeft = i == 0 ? null : zombieDominoSpaces[i - 1].button,
                     selectOnRight = i == zombieDominoSpaces.Count - 1 ? null : zombieDominoSpaces[i + 1].button,
-                    selectOnDown = survivorSpace.button
+                    selectOnDown = survivorSpace.button,
+                    selectOnUp = null
                 };
-                survivorSpace.button.navigation = zombieNavigation;
+                zombieSpace.button.navigation = zombieNavigation;
             }
 
             currentSurvivors.Clear();

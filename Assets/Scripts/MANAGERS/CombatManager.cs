@@ -53,7 +53,7 @@ namespace RobbieWagnerGames.Zombinos
                 if (hordeCount == value)
                     return;
 
-                hordeCount = value;
+                hordeCount = Math.Clamp(value, 0, 999);
                 OnModifyHordeCount?.Invoke(hordeCount);
                 hordeText.text = $"{hordeCount}";
             }
@@ -172,6 +172,12 @@ namespace RobbieWagnerGames.Zombinos
         public void StartCombat()
         {
             CurrentCombatPhase = CombatPhase.SETUP;
+        }
+
+        public void DiscardDomino(Domino domino)
+        {
+            discard.Add(domino.DominoConfiguration);
+            Destroy(domino.gameObject);
         }
     }
 }

@@ -10,13 +10,42 @@ namespace RobbieWagnerGames.Zombinos
     {
         [Header("Domino")]
         public ButtonListener button;
+
         public SpriteRenderer offenseEndImage;
-        private int offenseCurrentStrength;
+        private int offenseCurrentStrength = 0;
+        public int OffenseCurrentStrength 
+        {
+            get
+            {
+                return offenseCurrentStrength;
+            }
+            set
+            {
+                if (offenseCurrentStrength == value)
+                    return;
+                offenseCurrentStrength = value;
+                offenseEndImage.sprite = DominoManager.GetDominoPipSprite(offenseCurrentStrength);
+            }
+        }
         public SpriteRenderer defenseEndImage;
-        private int defenseCurrentStrength;
+        private int defenseCurrentStrength = 0;
+        public int DefenseCurrentStrength 
+        { 
+            get
+            {
+                return defenseCurrentStrength;
+            }
+            set
+            {
+                if (defenseCurrentStrength == value)
+                    return;
+                defenseCurrentStrength = value;
+                defenseEndImage.sprite = DominoManager.GetDominoPipSprite(defenseCurrentStrength);
+            }
+        }
         public Vector3 defaultScale;
 
-        public DominoConfiguration dominoConfiguration;
+        private DominoConfiguration dominoConfiguration;
         public DominoConfiguration DominoConfiguration
         {
             get
@@ -60,10 +89,7 @@ namespace RobbieWagnerGames.Zombinos
         public void OnSelect(Button button)
         {
             if (button.interactable)
-            {
                 CombatManager.Instance.SelectedDomino = this;
-                Debug.Log($"Domino selected {offenseCurrentStrength}/{defenseCurrentStrength}");
-            }
         }
 
         public void OnDeselect(Button button)
@@ -80,7 +106,7 @@ namespace RobbieWagnerGames.Zombinos
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            Debug.Log("pointer enter");
+            //Debug.Log("pointer enter");
             EventSystemManager.Instance.SetSelectedGameObject(button.gameObject);
         }
 
