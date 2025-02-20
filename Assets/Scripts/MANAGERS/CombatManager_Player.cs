@@ -12,6 +12,8 @@ namespace RobbieWagnerGames.Zombinos
 {
     public partial class CombatManager : MonoBehaviourSingleton<CombatManager>
     {
+        private Sequence selectSequence;
+        private Sequence deselectSequence;
         public float selectionTransitionTime = .4f;
         public float selectionCooldownTime = .2f;
         private bool isPlayerFinished = false;
@@ -29,8 +31,11 @@ namespace RobbieWagnerGames.Zombinos
                 
                 if (selectedDomino != null && selectedDomino != ConfirmedDomino)
                 {
-                    selectedDomino.transform.DOLocalMove(Vector3.zero, selectionTransitionTime);
-                    selectedDomino.transform.DOScale(selectedDomino.defaultScale, selectionTransitionTime);
+                    if (deselectSequence != null) deselectSequence.Kill(true);
+                    selectedDomino.transform.localScale = selectedDomino.defaultScale;
+                    deselectSequence = DOTween.Sequence();
+                    deselectSequence.Append(selectedDomino.transform.DOLocalMove(Vector3.zero, selectionTransitionTime));
+                    deselectSequence.Play();
                     StartCoroutine(selectedDomino.CooldownMouseHover(selectionCooldownTime));
                 }
 
@@ -38,8 +43,11 @@ namespace RobbieWagnerGames.Zombinos
 
                 if (selectedDomino != null)
                 {
-                    selectedDomino.transform.DOLocalMove(new Vector3(0, .4f, -1), selectionTransitionTime);
-                    selectedDomino.transform.DOScale(selectedDomino.defaultScale * 1.35f, selectionTransitionTime);
+                    if (selectSequence != null) selectSequence.Kill();
+                    selectSequence = DOTween.Sequence();
+                    selectSequence.Append(selectedDomino.transform.DOLocalMove(new Vector3(0, .4f, -1), selectionTransitionTime));
+                    selectSequence.Append(selectedDomino.transform.DOScale(selectedDomino.defaultScale * 1.35f, selectionTransitionTime));
+                    selectSequence.Play();
                 }
 
                 OnSetSelectedDomino?.Invoke(value);
@@ -104,6 +112,8 @@ namespace RobbieWagnerGames.Zombinos
         {
             if (playerHand.Contains(domino))
             {
+                if (selectSequence != null) selectSequence.Kill();
+
                 playerHand.Remove(domino);
                 foreach (Transform t in handTransforms.Where(x => x.childCount == 0))
                     Destroy(t.gameObject);
