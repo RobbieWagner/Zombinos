@@ -277,11 +277,6 @@ MonoBehaviour:
   offenseEndImage: {fileID: 3762790886260480112}
   defenseEndImage: {fileID: 7867386972630460095}
   defaultScale: {x: 0.32, y: 0.32, z: 1}
-  dominoConfiguration:
-    offenseEndType: 0
-    offenseEndStrength: 0
-    defenseEndType: 0
-    defenseEndStrength: 0
 --- !u!114 &3708040234212577377
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -321,7 +316,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
   m_OnClick:
     m_PersistentCalls:

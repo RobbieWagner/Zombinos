@@ -30,7 +30,7 @@ namespace RobbieWagnerGames.Zombinos
         private List<DominoConfiguration> discard = new List<DominoConfiguration>();
         private List<Domino> playerHand = new List<Domino>();
         [SerializeField] private Transform playerHandParent;
-        [SerializeField] private Transform handTransformPrefab;
+        [SerializeField] private RectTransform handTransformPrefab;
         private List<Transform> handTransforms = new List<Transform>();
         [SerializeField] private int playerHandSize = 5;
 

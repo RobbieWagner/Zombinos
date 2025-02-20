@@ -1,5 +1,6 @@
 using RobbieWagnerGames.Managers;
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -10,6 +11,7 @@ namespace RobbieWagnerGames.Zombinos
     {
         [Header("Domino")]
         public ButtonListener button;
+        private bool canSelect = true;
 
         public SpriteRenderer offenseEndImage;
         private int offenseCurrentStrength = 0;
@@ -107,13 +109,22 @@ namespace RobbieWagnerGames.Zombinos
         public void OnPointerEnter(PointerEventData eventData)
         {
             //Debug.Log("pointer enter");
-            EventSystemManager.Instance.SetSelectedGameObject(button.gameObject);
+            if(button.interactable & canSelect)
+                EventSystemManager.Instance.SetSelectedGameObject(button.gameObject);
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
             if(EventSystemManager.Instance.eventSystem.currentSelectedGameObject == button.gameObject)
                 EventSystemManager.Instance.SetSelectedGameObject(null);
+        }
+
+        public IEnumerator CooldownMouseHover(float timeToWait = .4f)
+        {
+            canSelect = false;
+            yield return new WaitForSeconds(timeToWait);
+
+            canSelect = true;
         }
     }
 }

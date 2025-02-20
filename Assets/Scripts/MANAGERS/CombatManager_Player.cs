@@ -12,6 +12,8 @@ namespace RobbieWagnerGames.Zombinos
 {
     public partial class CombatManager : MonoBehaviourSingleton<CombatManager>
     {
+        public float selectionTransitionTime = .4f;
+        public float selectionCooldownTime = .2f;
         private bool isPlayerFinished = false;
         private Domino selectedDomino;
         public Domino SelectedDomino 
@@ -25,18 +27,19 @@ namespace RobbieWagnerGames.Zombinos
                 if (value == selectedDomino)
                     return;
                 
-                if (selectedDomino != null)
+                if (selectedDomino != null && selectedDomino != ConfirmedDomino)
                 {
-                    selectedDomino.transform.DOLocalMove(Vector3.zero, .4f);
-                    selectedDomino.transform.DOScale(selectedDomino.defaultScale, .4f);
+                    selectedDomino.transform.DOLocalMove(Vector3.zero, selectionTransitionTime);
+                    selectedDomino.transform.DOScale(selectedDomino.defaultScale, selectionTransitionTime);
+                    StartCoroutine(selectedDomino.CooldownMouseHover(selectionCooldownTime));
                 }
 
                 selectedDomino = value;
 
                 if (selectedDomino != null)
                 {
-                    selectedDomino.transform.DOLocalMove(new Vector3(0, 1, -1), .4f);
-                    selectedDomino.transform.DOScale(selectedDomino.defaultScale * 1.5f, .4f);
+                    selectedDomino.transform.DOLocalMove(new Vector3(0, .4f, -1), selectionTransitionTime);
+                    selectedDomino.transform.DOScale(selectedDomino.defaultScale * 1.35f, selectionTransitionTime);
                 }
 
                 OnSetSelectedDomino?.Invoke(value);
@@ -105,12 +108,12 @@ namespace RobbieWagnerGames.Zombinos
                 foreach (Transform t in handTransforms.Where(x => x.childCount == 0))
                     Destroy(t.gameObject);
                 handTransforms = handTransforms.Where(x => x.childCount > 0).ToList();
+                domino.transform.localScale = domino.defaultScale;
+                if (survivorDominoSpaces.Where(x => x.Domino == null).Any())
+                    StartHandSelection();
+                else
+                    isPlayerFinished = true;
             }
-
-            if (survivorDominoSpaces.Where(x => x.Domino == null).Any())
-                StartHandSelection();
-            else
-                isPlayerFinished = true;
         }
 
         private void StartHandSelection()
@@ -125,10 +128,10 @@ namespace RobbieWagnerGames.Zombinos
         
         private void StartDominoPlacement()
         {
-            foreach (Domino handDomino in playerHand)
-                handDomino.button.interactable = false;
             foreach (DominoSpace space in survivorDominoSpaces.Where(x => x.Domino == null))
                 space.button.interactable = true;
+            foreach (Domino domino in playerHand)
+                domino.button.interactable = false;
 
             EventSystemManager.Instance.SetSelectedGameObject(survivorDominoSpaces.Where(x => x.Domino == null).First().button.gameObject);
         }
