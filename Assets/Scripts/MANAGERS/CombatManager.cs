@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace RobbieWagnerGames.Zombinos
 {
@@ -25,6 +26,7 @@ namespace RobbieWagnerGames.Zombinos
         [Header("Dominos")]
         [SerializeField] private Domino playerDominoPrefab;
         [SerializeField] private Domino enemyDominoPrefab;
+        private List<DominoConfiguration> hordeDominoOptions;
         [SerializeField] private List<DominoConfiguration> baseDeck;
         private List<DominoConfiguration> currentDeck = new List<DominoConfiguration>();
         private List<DominoConfiguration> discard = new List<DominoConfiguration>();
@@ -39,9 +41,27 @@ namespace RobbieWagnerGames.Zombinos
         [SerializeField] private List<DominoSpace> survivorDominoSpaces;
         [SerializeField] private List<SurvivorUI> survivorUis;
         private List<Survivor> currentSurvivors = new List<Survivor>();
-        [SerializeField] private List<DominoConfiguration> hordeDominoOptions;
         [SerializeField] private TextMeshProUGUI hordeText;
-        [SerializeField] private int hordeCount;
+
+        [Header("Combat")]
+        private CombatConfiguration currentCombat;
+        public CombatConfiguration CurrentCombat
+        {
+            get
+            {
+                return currentCombat;
+            }
+            set 
+            { 
+                if(currentCombat == value)
+                    return;
+
+                currentCombat = value; 
+                HordeCount = currentCombat.hordeSize;
+                hordeDominoOptions = currentCombat.hordeDominos;
+            }
+        }
+        private int hordeCount;
         public int HordeCount
         {
             get
@@ -86,12 +106,17 @@ namespace RobbieWagnerGames.Zombinos
 
             hordeText.text = $"{hordeCount}";
 
-            StartCombat();
-
             foreach(DominoSpace space in survivorDominoSpaces)
                 space.OnDominoSet += PlaceDomino;
 
             InputManager.Instance.gameControls.UI.Navigate.performed += CheckNullNavigation;
+        }
+
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+
+            InputManager.Instance.gameControls.UI.Navigate.performed -= CheckNullNavigation;
         }
 
         protected virtual void StartCombatPhase(CombatPhase phase)
@@ -169,8 +194,9 @@ namespace RobbieWagnerGames.Zombinos
             }
         }
 
-        public void StartCombat()
+        public void StartCombat(CombatConfiguration configuration)
         {
+            CurrentCombat = configuration;
             CurrentCombatPhase = CombatPhase.SETUP;
         }
 

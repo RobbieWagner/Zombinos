@@ -15,13 +15,10 @@ namespace RobbieWagnerGames.Zombinos
         public MapButton mapButtonPrefab;
         private List<MapButton> mapButtons = new List<MapButton>();
 
-        private void Awake()
+        public void BuildMap()
         {
-            BuildMap();
-        }
+            canvas.enabled = true;
 
-        private void BuildMap()
-        {
             foreach(MapButton button in mapButtons)
                 Destroy(button.gameObject);
             mapButtons.Clear();

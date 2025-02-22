@@ -10,10 +10,11 @@ namespace RobbieWagnerGames.Zombinos
         COMBAT
     }
 
-    public class MapDestinationConfiguration : MonoBehaviour
+    [System.Serializable]
+    public class MapDestinationConfiguration
     {
         public Vector2 mapPosition;
-        public string gameScene;
         public DestinationType destinationType = DestinationType.NONE;
+        public CombatConfiguration combatConfiguration;
     }
 }

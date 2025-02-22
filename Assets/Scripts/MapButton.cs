@@ -36,9 +36,7 @@ namespace RobbieWagnerGames.Zombinos
 
         private void OnMapButtonClicked()
         {
-            Map.Instance.canvas.enabled = false;
-            SceneManager.LoadScene(destinationConfiguration.gameScene, LoadSceneMode.Additive);
-            //TODO: Add functionality to set game mode here
+            GameManager.Instance.TriggerCombat(destinationConfiguration.combatConfiguration);
         }
     }
 }

@@ -32,6 +32,7 @@ namespace RobbieWagnerGames.Zombinos
                 if (selectedDomino != null && selectedDomino != ConfirmedDomino)
                 {
                     if (deselectSequence != null) deselectSequence.Kill(true);
+                    if (selectSequence != null) selectSequence.Kill();
                     selectedDomino.transform.localScale = selectedDomino.defaultScale;
                     deselectSequence = DOTween.Sequence();
                     deselectSequence.Append(selectedDomino.transform.DOLocalMove(Vector3.zero, selectionTransitionTime));
@@ -44,6 +45,7 @@ namespace RobbieWagnerGames.Zombinos
                 if (selectedDomino != null)
                 {
                     if (selectSequence != null) selectSequence.Kill();
+                    if (deselectSequence != null) deselectSequence.Kill(true);
                     selectSequence = DOTween.Sequence();
                     selectSequence.Append(selectedDomino.transform.DOLocalMove(new Vector3(0, .4f, -1), selectionTransitionTime));
                     selectSequence.Append(selectedDomino.transform.DOScale(selectedDomino.defaultScale * 1.35f, selectionTransitionTime));
@@ -67,6 +69,16 @@ namespace RobbieWagnerGames.Zombinos
                 if (confirmedDomino == value)
                     return;
 
+                if (confirmedDomino != null)
+                {
+                    if (deselectSequence != null) deselectSequence.Kill(true);
+                    if (selectSequence != null) selectSequence.Kill();
+                    confirmedDomino.transform.localScale = confirmedDomino.defaultScale;
+                    deselectSequence = DOTween.Sequence();
+                    deselectSequence.Append(confirmedDomino.transform.DOLocalMove(Vector3.zero, selectionTransitionTime));
+                    deselectSequence.Play();
+                }
+                
                 confirmedDomino = value;
                 OnSetConfirmedDomino?.Invoke(value);
 
@@ -87,6 +99,7 @@ namespace RobbieWagnerGames.Zombinos
 
             StartHandSelection();
 
+            InputManager.Instance.gameControls.UI.RightClick.performed += CancelSelection;
             InputManager.Instance.gameControls.UI.Cancel.performed += CancelSelection;
             InputManager.Instance.EnableActionMap(ActionMapName.UI.ToString());
 

@@ -353,6 +353,15 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""RightClick"",
+                    ""type"": ""Button"",
+                    ""id"": ""116a966d-7338-4c35-bdec-f91db2cfda70"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -551,6 +560,17 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""CombatDetails"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""357a4cc4-5282-4819-b766-e0f4b807313b"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RightClick"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1360,6 +1380,7 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
         m_COMBAT_Cancel = m_COMBAT.FindAction("Cancel", throwIfNotFound: true);
         m_COMBAT_Navigate = m_COMBAT.FindAction("Navigate", throwIfNotFound: true);
         m_COMBAT_CombatDetails = m_COMBAT.FindAction("CombatDetails", throwIfNotFound: true);
+        m_COMBAT_RightClick = m_COMBAT.FindAction("RightClick", throwIfNotFound: true);
         // DIALOGUE
         m_DIALOGUE = asset.FindActionMap("DIALOGUE", throwIfNotFound: true);
         m_DIALOGUE_Navigate = m_DIALOGUE.FindAction("Navigate", throwIfNotFound: true);
@@ -1540,6 +1561,7 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_COMBAT_Cancel;
     private readonly InputAction m_COMBAT_Navigate;
     private readonly InputAction m_COMBAT_CombatDetails;
+    private readonly InputAction m_COMBAT_RightClick;
     public struct COMBATActions
     {
         private @GameControls m_Wrapper;
@@ -1548,6 +1570,7 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
         public InputAction @Cancel => m_Wrapper.m_COMBAT_Cancel;
         public InputAction @Navigate => m_Wrapper.m_COMBAT_Navigate;
         public InputAction @CombatDetails => m_Wrapper.m_COMBAT_CombatDetails;
+        public InputAction @RightClick => m_Wrapper.m_COMBAT_RightClick;
         public InputActionMap Get() { return m_Wrapper.m_COMBAT; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1569,6 +1592,9 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
             @CombatDetails.started += instance.OnCombatDetails;
             @CombatDetails.performed += instance.OnCombatDetails;
             @CombatDetails.canceled += instance.OnCombatDetails;
+            @RightClick.started += instance.OnRightClick;
+            @RightClick.performed += instance.OnRightClick;
+            @RightClick.canceled += instance.OnRightClick;
         }
 
         private void UnregisterCallbacks(ICOMBATActions instance)
@@ -1585,6 +1611,9 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
             @CombatDetails.started -= instance.OnCombatDetails;
             @CombatDetails.performed -= instance.OnCombatDetails;
             @CombatDetails.canceled -= instance.OnCombatDetails;
+            @RightClick.started -= instance.OnRightClick;
+            @RightClick.performed -= instance.OnRightClick;
+            @RightClick.canceled -= instance.OnRightClick;
         }
 
         public void RemoveCallbacks(ICOMBATActions instance)
@@ -1852,6 +1881,7 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
         void OnCancel(InputAction.CallbackContext context);
         void OnNavigate(InputAction.CallbackContext context);
         void OnCombatDetails(InputAction.CallbackContext context);
+        void OnRightClick(InputAction.CallbackContext context);
     }
     public interface IDIALOGUEActions
     {

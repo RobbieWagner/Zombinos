@@ -14,7 +14,9 @@ namespace RobbieWagnerGames.Zombinos
             else
                 Debug.Log("You lose!!");
 
-            yield return null;
+            yield return new WaitForSeconds(1.5f);
+
+            GameManager.Instance.CurrentGameMode = GameMode.MENU;
         }
     }
 }

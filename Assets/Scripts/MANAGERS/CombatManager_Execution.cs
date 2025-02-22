@@ -1,3 +1,4 @@
+using RobbieWagnerGames.Managers;
 using RobbieWagnerGames.Utilities;
 using System;
 using System.Collections;
@@ -9,6 +10,9 @@ namespace RobbieWagnerGames.Zombinos
     {
         private IEnumerator HandleExecutionPhase()
         {
+            InputManager.Instance.gameControls.UI.RightClick.performed -= CancelSelection;
+            InputManager.Instance.gameControls.UI.Cancel.performed -= CancelSelection;
+
             for (int i = 0; i < survivorDominoSpaces.Count; i++)
             {
                 Domino survivorDomino = survivorDominoSpaces[i].Domino;
