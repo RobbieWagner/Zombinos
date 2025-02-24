@@ -29,9 +29,9 @@ namespace RobbieWagnerGames.Zombinos
                     CombatManager.Instance?.DiscardDomino(domino);
 
                 domino = value;
-                if(domino != null)
-                    OnSetDomino();
                 OnDominoSet?.Invoke(domino, this);
+                if (domino != null)
+                    OnSetDomino();
             }
         }
         public Action<Domino, DominoSpace> OnDominoSet = (Domino domino, DominoSpace space) => { };
@@ -51,7 +51,7 @@ namespace RobbieWagnerGames.Zombinos
         private void OnSetDomino()
         {
             Domino.transform.SetParent(this.transform);
-            Domino.transform.position = new Vector3(transform.position.x, transform.position.y, Domino.transform.position.z);
+            Domino.transform.localPosition = new Vector3(0, 0, -1);
             Domino.button.interactable = false;
         }
 

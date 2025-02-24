@@ -10,5 +10,6 @@ namespace RobbieWagnerGames.Zombinos
         public int hordeSize;
         public List<DominoConfiguration> hordeDominos;
         public string combatSceneName;
+        public string levelName;
     }
 }

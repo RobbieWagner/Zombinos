@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -11,6 +12,7 @@ namespace RobbieWagnerGames.Zombinos
     {
         [SerializeField] private ButtonListener button;
         [SerializeField] private RectTransform rectTransform;
+        [SerializeField] private TextMeshProUGUI levelName;
 
         private MapDestinationConfiguration destinationConfiguration = null;
         public MapDestinationConfiguration DestinationConfiguration
@@ -26,6 +28,7 @@ namespace RobbieWagnerGames.Zombinos
 
                 destinationConfiguration = value;
                 rectTransform.anchoredPosition = destinationConfiguration.mapPosition;
+                levelName.text = destinationConfiguration.combatConfiguration.levelName;
             }
         }
 

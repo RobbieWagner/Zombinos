@@ -30,31 +30,17 @@ namespace RobbieWagnerGames.Zombinos
                     return;
                 
                 if (selectedDomino != null && selectedDomino != ConfirmedDomino)
-                {
-                    if (deselectSequence != null) deselectSequence.Kill(true);
-                    if (selectSequence != null) selectSequence.Kill();
-                    selectedDomino.transform.localScale = selectedDomino.defaultScale;
-                    deselectSequence = DOTween.Sequence();
-                    deselectSequence.Append(selectedDomino.transform.DOLocalMove(Vector3.zero, selectionTransitionTime));
-                    deselectSequence.Play();
-                    StartCoroutine(selectedDomino.CooldownMouseHover(selectionCooldownTime));
-                }
+                    TriggerDeselectSequence(selectedDomino);
 
                 selectedDomino = value;
 
                 if (selectedDomino != null)
-                {
-                    if (selectSequence != null) selectSequence.Kill();
-                    if (deselectSequence != null) deselectSequence.Kill(true);
-                    selectSequence = DOTween.Sequence();
-                    selectSequence.Append(selectedDomino.transform.DOLocalMove(new Vector3(0, .4f, -1), selectionTransitionTime));
-                    selectSequence.Append(selectedDomino.transform.DOScale(selectedDomino.defaultScale * 1.35f, selectionTransitionTime));
-                    selectSequence.Play();
-                }
+                    TriggerSelectSequence(selectedDomino);
 
                 OnSetSelectedDomino?.Invoke(value);
             } 
         }
+
         public Action<Domino> OnSetSelectedDomino = (Domino domino) => { };
         
         private Domino confirmedDomino = null;
@@ -70,14 +56,7 @@ namespace RobbieWagnerGames.Zombinos
                     return;
 
                 if (confirmedDomino != null)
-                {
-                    if (deselectSequence != null) deselectSequence.Kill(true);
-                    if (selectSequence != null) selectSequence.Kill();
-                    confirmedDomino.transform.localScale = confirmedDomino.defaultScale;
-                    deselectSequence = DOTween.Sequence();
-                    deselectSequence.Append(confirmedDomino.transform.DOLocalMove(Vector3.zero, selectionTransitionTime));
-                    deselectSequence.Play();
-                }
+                    TriggerDeconfirmSequence(confirmedDomino);
                 
                 confirmedDomino = value;
                 OnSetConfirmedDomino?.Invoke(value);
@@ -91,6 +70,7 @@ namespace RobbieWagnerGames.Zombinos
                 }
             }
         }
+
         public Action<Domino> OnSetConfirmedDomino = (Domino domino) => { };
 
         private IEnumerator HandlePlayerPhase()

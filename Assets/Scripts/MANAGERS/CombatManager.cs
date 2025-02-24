@@ -1,3 +1,4 @@
+using DG.Tweening;
 using RobbieWagnerGames.Managers;
 using RobbieWagnerGames.Utilities;
 using System;
@@ -205,5 +206,47 @@ namespace RobbieWagnerGames.Zombinos
             discard.Add(domino.DominoConfiguration);
             Destroy(domino.gameObject);
         }
+
+        #region Domino Movement Sequence
+        private void TriggerSelectSequence(Domino domino)
+        {
+            if (transform.parent.GetComponent<DominoSpace>() == null)
+            {
+                if (selectSequence != null) selectSequence.Kill();
+                if (deselectSequence != null) deselectSequence.Kill(true);
+                selectSequence = DOTween.Sequence();
+                selectSequence.Append(domino.transform.DOLocalMove(new Vector3(0, .4f, -1), selectionTransitionTime));
+                selectSequence.Append(domino.transform.DOScale(domino.defaultScale * 1.35f, selectionTransitionTime));
+                selectSequence.Play();
+            }
+        }
+
+        private void TriggerDeselectSequence(Domino domino)
+        {
+            if (transform.parent.GetComponent<DominoSpace>() == null)
+            {
+                if (deselectSequence != null) deselectSequence.Kill(true);
+                if (selectSequence != null) selectSequence.Kill();
+                domino.transform.localScale = domino.defaultScale;
+                deselectSequence = DOTween.Sequence();
+                deselectSequence.Append(domino.transform.DOLocalMove(Vector2.zero, selectionTransitionTime));
+                deselectSequence.Play();
+                StartCoroutine(domino.CooldownMouseHover(selectionCooldownTime));
+            }
+        }
+
+        private void TriggerDeconfirmSequence(Domino domino)
+        {
+            if (transform.parent.GetComponent<DominoSpace>() == null)
+            {
+                if (deselectSequence != null) deselectSequence.Kill(true);
+                if (selectSequence != null) selectSequence.Kill();
+                confirmedDomino.transform.localScale = confirmedDomino.defaultScale;
+                deselectSequence = DOTween.Sequence();
+                deselectSequence.Append(domino.transform.DOLocalMove(Vector2.zero, selectionTransitionTime));
+                deselectSequence.Play();
+            }
+        }
+        #endregion
     }
 }
