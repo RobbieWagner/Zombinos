@@ -4,6 +4,7 @@ using RobbieWagnerGames.Utilities.SaveData;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -18,7 +19,25 @@ namespace RobbieWagnerGames.Zombinos
 
     public class GameManager : MonoBehaviourSingleton<GameManager>
     {
+        #region player party
         public List<Survivor> playerParty;
+        private static List<SurvivorInfo> defaultParty = new List<SurvivorInfo>() 
+        { 
+            new SurvivorInfo() 
+            { 
+                maxHP = 20, 
+                survivorSpritePath = "Survivor1"
+            },
+            new SurvivorInfo()
+            {
+                maxHP = 20, survivorSpritePath = "Survivor2"
+            },
+            new SurvivorInfo()
+            {
+                maxHP = 20, survivorSpritePath = "Survivor3"
+            }
+        };
+        #endregion
 
         public static Action<GameMode> OnGameModeChanged = (GameMode gameMode) => { };
         public static Action<GameMode, GameMode> OnGameModeEnded = (GameMode gameMode, GameMode nextGameMode) => { };
@@ -40,6 +59,7 @@ namespace RobbieWagnerGames.Zombinos
                 OnGameModeChanged?.Invoke(currentGameMode);
             }
         }
+
         protected override void Awake()
         {
             base.Awake();
@@ -85,13 +105,22 @@ namespace RobbieWagnerGames.Zombinos
 
         public void LoadGameData()
         {
-           
+            List<SurvivorInfo> savedPartyInfo = JsonDataService.Instance.LoadDataRelative(StaticGameStats.partySavePath, defaultParty);
+            if (savedPartyInfo != null)
+            {
+                playerParty = new List<Survivor>();
+                foreach(SurvivorInfo survivorInfo in savedPartyInfo)
+                {
+                    Survivor survivor = new Survivor();
+                    survivor.survivorInfo = survivorInfo;
+                    playerParty.Add(survivor);
+                }
+            }
         }
 
         public void SaveGameData()
         {
-            //TODO: IMPLEMENT
-            throw new NotImplementedException();
+            JsonDataService.Instance.SaveData(StaticGameStats.partySavePath, playerParty.Select(x => x.survivorInfo));
         }
 
         public void OpenMap()

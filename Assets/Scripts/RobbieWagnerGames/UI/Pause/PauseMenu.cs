@@ -54,7 +54,7 @@ namespace RobbieWagnerGames.UI
             Time.timeScale = 0;
 
             resumeButton.onClick.AddListener(ResumeGame);
-            settingsButton.onClick.AddListener(OpenSettings);
+            if (settingsButton != null) settingsButton.onClick.AddListener(OpenSettings);
             //controlsButton.onClick.AddListener(OpenControls);
             saveButton.onClick.AddListener(SaveGame);
             quitButton.onClick.AddListener(QuitToMainMenu);
@@ -92,7 +92,7 @@ namespace RobbieWagnerGames.UI
             }
 
             resumeButton.onClick.RemoveListener(ResumeGame);
-            settingsButton.onClick.RemoveListener(OpenSettings);
+            if (settingsButton != null) settingsButton.onClick.RemoveListener(OpenSettings);
             //controlsButton.onClick.RemoveListener(OpenControls);
             saveButton.onClick.RemoveListener(SaveGame);
             quitButton.onClick.RemoveListener(QuitToMainMenu);
@@ -151,7 +151,7 @@ namespace RobbieWagnerGames.UI
             base.ToggleButtonInteractibility(toggleOn);
 
             resumeButton.interactable = toggleOn;
-            settingsButton.interactable = toggleOn;
+            if (settingsButton != null) settingsButton.interactable = toggleOn;
             //controlsButton.interactable = toggleOn;
             saveButton.interactable = toggleOn;
             quitButton.interactable = toggleOn;

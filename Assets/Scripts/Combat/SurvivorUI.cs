@@ -42,7 +42,7 @@ namespace RobbieWagnerGames.Zombinos
         private void UpdateUI()
         {
             if (survivor.survivorInfo != null)
-                survivorSprite.sprite = survivor.survivorInfo.survivorSprite;
+                survivorSprite.sprite = Resources.Load<Sprite>(StaticGameStats.survivorSpritesFilePath + survivor.survivorInfo.survivorSpritePath);
         }
 
         private void UpdateHPUI(int hp)
