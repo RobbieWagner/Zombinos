@@ -21,26 +21,31 @@ namespace RobbieWagnerGames.Zombinos
                 if (survivorDomino == null)
                     continue;
 
-                for (int j = survivorDomino.OffenseCurrentStrength; j > 0; j--)
+                if (zombieDomino == null)
+                    HordeCount -= survivorDomino.OffenseCurrentStrength;
+                else
                 {
-                    if (zombieDomino == null)
+                    int power = survivorDomino.OffenseCurrentStrength;
+                    
+                    if (power >= zombieDomino.DefenseCurrentStrength)
                     {
-                        HordeCount -= j;
-                        break;
+                        power -= zombieDomino.DefenseCurrentStrength;
+                        zombieDomino.DefenseCurrentStrength = 0;
+                        zombieDominoSpaces[i].Domino = null;
                     }
                     else
                     {
-                        zombieDomino.DefenseCurrentStrength--;
-                        if (zombieDomino.DefenseCurrentStrength == 0)
-                        {
-                            yield return new WaitForSeconds(.1f);
-                            zombieDominoSpaces[i].Domino = null;
-                        }
+                        zombieDomino.DefenseCurrentStrength -= power;
+                        power = 0;
                     }
 
-                    yield return new WaitForSeconds(.15f);
+                    HordeCount -= power;
                 }
+
+                yield return new WaitForSeconds(1.5f);
             }
+
+            yield return new WaitForSeconds(1f);
 
             for (int i = 0; i < zombieDominoSpaces.Count; i++)
             {
@@ -50,27 +55,31 @@ namespace RobbieWagnerGames.Zombinos
                 if (zombieDomino == null)
                     continue;
 
-                for (int j = zombieDomino.OffenseCurrentStrength; j > 0; j--)
+                if (survivorDomino == null)
+                    currentSurvivors[i].HP -= zombieDomino.OffenseCurrentStrength;
+                else
                 {
-                    if (survivorDomino == null)
+                    int power = zombieDomino.OffenseCurrentStrength;
+
+                    if (power >= survivorDomino.DefenseCurrentStrength)
                     {
-                        currentSurvivors[i].HP -= j;
-                        break;
+                        power -= survivorDomino.DefenseCurrentStrength;
+                        survivorDomino.DefenseCurrentStrength = 0;
+                        survivorDominoSpaces[i].Domino = null;
                     }
                     else
                     {
-                        survivorDomino.DefenseCurrentStrength--;
-                        if (survivorDomino.DefenseCurrentStrength == 0)
-                        {
-                            yield return new WaitForSeconds(.1f);
-                            survivorDominoSpaces[i].Domino = null;
-                        }
+                        survivorDomino.DefenseCurrentStrength -= power;
+                        power = 0;
                     }
 
-                    yield return new WaitForSeconds(.15f);
+                    currentSurvivors[i].HP -= zombieDomino.OffenseCurrentStrength;
                 }
+
+                yield return new WaitForSeconds(1.5f);
             }
 
+            yield return new WaitForSeconds(1f);
             CurrentCombatPhase = CombatPhase.TURN_END;
         }
     }

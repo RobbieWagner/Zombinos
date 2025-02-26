@@ -4,12 +4,20 @@ using RobbieWagnerGames.Utilities;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace RobbieWagnerGames.Zombinos
 {
+    public enum DominoChainType
+    {
+        NONE,
+        OFFENSE,
+        DEFENSE
+    }
+
     public enum CombatPhase
     {
         NONE,
@@ -245,6 +253,91 @@ namespace RobbieWagnerGames.Zombinos
                 deselectSequence = DOTween.Sequence();
                 deselectSequence.Append(domino.transform.DOLocalMove(Vector2.zero, selectionTransitionTime));
                 deselectSequence.Play();
+            }
+        }
+        #endregion
+
+        #region Game Board
+        /// <summary>
+        /// Updates chains associated with the given chainDomino, looking for new and expanded chains created by it
+        /// </summary>
+        /// <param name="chainDomino"></param>
+        /// <param name="dominoSpaces"></param>
+        private void UpdateDominoChains(Domino chainDomino, List<DominoSpace> dominoSpaces)
+        {
+            Dictionary<DominoChainType, List<Domino>> dominoChains= new Dictionary<DominoChainType, List<Domino>>();
+
+            for(int i = 0; i < dominoSpaces.Count - 1; i++)
+            {
+                Domino thisDomino = dominoSpaces[i].Domino;
+                Domino nextDomino = dominoSpaces[i + 1].Domino;
+                
+                if(thisDomino == null || nextDomino == null)
+                    continue;
+
+                // Make sure chain is not already accounted for, and then check if the two dominos have the same value
+                if (!dominoChains.TryGetValue(DominoChainType.DEFENSE, out _) && thisDomino.DominoConfiguration.defenseEndType == nextDomino.DominoConfiguration.defenseEndType)
+                {
+                    if (thisDomino.DefenseCurrentStrength == nextDomino.DefenseCurrentStrength)
+                    {
+                        List<Domino> chain = new List<Domino>() { thisDomino, nextDomino };
+
+                        for (int j = i + 2; j < dominoSpaces.Count; j++)
+                        {
+                            Domino domino = dominoSpaces[j].Domino;
+                            if (domino != null
+                                && domino.DominoConfiguration.defenseEndType == thisDomino.DominoConfiguration.defenseEndType
+                                && domino.DefenseCurrentStrength == thisDomino.DefenseCurrentStrength)
+                                chain.Add(domino);
+                            else break;
+                        }
+
+                        if (chain.Contains(chainDomino))
+                            dominoChains.Add(DominoChainType.DEFENSE, chain.Select(x => x).ToList());
+                    }
+                }
+
+                // Repeat for the OFFENSE side
+                if (!dominoChains.TryGetValue(DominoChainType.OFFENSE, out _) && thisDomino.DominoConfiguration.offenseEndType == nextDomino.DominoConfiguration.offenseEndType)
+                {
+                    if(thisDomino.OffenseCurrentStrength == nextDomino.OffenseCurrentStrength)
+                    {
+                        List<Domino> chain = new List<Domino>() { thisDomino, nextDomino };
+
+                        for (int j = i + 2; j < dominoSpaces.Count; j++)
+                        {
+                            Domino domino = dominoSpaces[j].Domino;
+                            if (domino != null
+                                && domino.DominoConfiguration.offenseEndType == thisDomino.DominoConfiguration.offenseEndType
+                                && domino.OffenseCurrentStrength == thisDomino.OffenseCurrentStrength)
+                                chain.Add(domino);
+                            else break;
+                        }
+
+                        if (chain.Contains(chainDomino))
+                            dominoChains.Add(DominoChainType.OFFENSE, chain.Select(x => x).ToList());
+                    }
+                }
+            }
+
+            foreach(KeyValuePair<DominoChainType, List<Domino>> dominoChain in dominoChains)
+            {
+                if (!dominoChain.Value.Contains(chainDomino))
+                    continue;
+
+                switch (dominoChain.Key)
+                { 
+                    case DominoChainType.DEFENSE:
+                        foreach (Domino domino in dominoChain.Value)
+                            domino.DefenseCurrentStrength += dominoChain.Value.Count-1;
+                        break;
+                    case DominoChainType.OFFENSE:
+                        foreach (Domino domino in dominoChain.Value)
+                            domino.OffenseCurrentStrength += dominoChain.Value.Count - 1;
+                        break;
+                    default:
+                        break;
+                }
             }
         }
         #endregion

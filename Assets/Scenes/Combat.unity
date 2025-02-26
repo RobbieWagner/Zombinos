@@ -965,8 +965,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 513306904}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.2657717, y: 0.69990665, z: 2.1012344}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1030,89 +1030,7 @@ MonoBehaviour:
   - {fileID: 1764669428}
   - {fileID: 526858680}
   - {fileID: 1184181118}
-  hordeDominoOptions:
-  - offenseEndType: 0
-    offenseEndStrength: 1
-    defenseEndType: 0
-    defenseEndStrength: 2
-  - offenseEndType: 0
-    offenseEndStrength: 1
-    defenseEndType: 0
-    defenseEndStrength: 3
-  - offenseEndType: 0
-    offenseEndStrength: 2
-    defenseEndType: 0
-    defenseEndStrength: 2
-  - offenseEndType: 0
-    offenseEndStrength: 3
-    defenseEndType: 0
-    defenseEndStrength: 1
-  - offenseEndType: 0
-    offenseEndStrength: 2
-    defenseEndType: 0
-    defenseEndStrength: 2
-  - offenseEndType: 0
-    offenseEndStrength: 5
-    defenseEndType: 0
-    defenseEndStrength: 2
-  - offenseEndType: 0
-    offenseEndStrength: 5
-    defenseEndType: 0
-    defenseEndStrength: 2
-  - offenseEndType: 0
-    offenseEndStrength: 2
-    defenseEndType: 0
-    defenseEndStrength: 5
-  - offenseEndType: 0
-    offenseEndStrength: 2
-    defenseEndType: 0
-    defenseEndStrength: 5
-  - offenseEndType: 0
-    offenseEndStrength: 2
-    defenseEndType: 0
-    defenseEndStrength: 5
-  - offenseEndType: 0
-    offenseEndStrength: 2
-    defenseEndType: 0
-    defenseEndStrength: 5
-  - offenseEndType: 0
-    offenseEndStrength: 2
-    defenseEndType: 0
-    defenseEndStrength: 5
-  - offenseEndType: 0
-    offenseEndStrength: 2
-    defenseEndType: 0
-    defenseEndStrength: 5
-  - offenseEndType: 0
-    offenseEndStrength: 2
-    defenseEndType: 0
-    defenseEndStrength: 5
-  - offenseEndType: 0
-    offenseEndStrength: 2
-    defenseEndType: 0
-    defenseEndStrength: 5
-  - offenseEndType: 0
-    offenseEndStrength: 1
-    defenseEndType: 0
-    defenseEndStrength: 6
-  - offenseEndType: 0
-    offenseEndStrength: 1
-    defenseEndType: 0
-    defenseEndStrength: 6
-  - offenseEndType: 0
-    offenseEndStrength: 3
-    defenseEndType: 0
-    defenseEndStrength: 3
-  - offenseEndType: 0
-    offenseEndStrength: 2
-    defenseEndType: 0
-    defenseEndStrength: 4
-  - offenseEndType: 0
-    offenseEndStrength: 6
-    defenseEndType: 0
-    defenseEndStrength: 1
   hordeText: {fileID: 2043114729}
-  hordeCount: 10
   combatEventHandlerPrefab: {fileID: 5054046787023221335, guid: fd5d8fe8b95bb7349ac5ba356194482f, type: 3}
   eventHandlerParent: {fileID: 513306905}
   selectionTransitionTime: 0.4
@@ -3204,6 +3122,50 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!1 &1671634110
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1671634111}
+  - component: {fileID: 1671634112}
+  m_Layer: 0
+  m_Name: DominoManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1671634111
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1671634110}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1952965932}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1671634112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1671634110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0d6530740e5f2a4abac93d7952a59f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1695716053
 GameObject:
   m_ObjectHideFlags: 0
@@ -3765,11 +3727,12 @@ Transform:
   m_GameObject: {fileID: 1952965931}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.2657717, y: -0.69990665, z: -2.1012344}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 513306905}
+  - {fileID: 1671634111}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1962279351

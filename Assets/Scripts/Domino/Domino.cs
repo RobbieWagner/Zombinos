@@ -9,6 +9,8 @@ namespace RobbieWagnerGames.Zombinos
 {
     public class Domino : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
+        public const int MaxValue = 6;
+
         [Header("Domino")]
         public ButtonListener button;
         private bool canSelect = true;
@@ -25,7 +27,9 @@ namespace RobbieWagnerGames.Zombinos
             {
                 if (offenseCurrentStrength == value)
                     return;
-                offenseCurrentStrength = value;
+                int newValue = Math.Clamp(value, 0, Domino.MaxValue);
+                //StartCoroutine(DominoManager.Instance.UpdateSpriteCo(offenseEndImage, offenseCurrentStrength, newValue));
+                offenseCurrentStrength = newValue;
                 offenseEndImage.sprite = DominoManager.GetDominoPipSprite(offenseCurrentStrength);
             }
         }
@@ -41,7 +45,9 @@ namespace RobbieWagnerGames.Zombinos
             {
                 if (defenseCurrentStrength == value)
                     return;
-                defenseCurrentStrength = value;
+                int newValue = Math.Clamp(value, 0, Domino.MaxValue);
+                //StartCoroutine(DominoManager.Instance.UpdateSpriteCo(defenseEndImage, defenseCurrentStrength, newValue));
+                defenseCurrentStrength = newValue;
                 defenseEndImage.sprite = DominoManager.GetDominoPipSprite(defenseCurrentStrength);
             }
         }

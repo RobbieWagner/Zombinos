@@ -1,4 +1,5 @@
 using RobbieWagnerGames.Utilities;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Playables;
@@ -16,6 +17,18 @@ namespace RobbieWagnerGames.Zombinos
         public static Sprite GetDominoAttributeSprite(DominoAttributeType attribute)
         {
             return Resources.Load<Sprite>($"Sprites/Domino/{attribute}");
+        }
+
+        public IEnumerator UpdateSpriteCo(SpriteRenderer spriteRenderer, int oldValue, int newValue)
+        {
+            int min = Math.Min(oldValue, newValue);
+            int max = Math.Max(oldValue, newValue);
+
+            for (int i = min + 1; i <= max; i++)
+            {
+                spriteRenderer.sprite = GetDominoPipSprite(i);
+                yield return new WaitForSeconds(.15f);
+            }
         }
     }
 }

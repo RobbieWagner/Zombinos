@@ -3,6 +3,7 @@ using RobbieWagnerGames.Managers;
 using RobbieWagnerGames.Utilities;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
@@ -117,6 +118,11 @@ namespace RobbieWagnerGames.Zombinos
                 else
                     isPlayerFinished = true;
             }
+
+            if (survivorDominoSpaces.Contains(space))
+                UpdateDominoChains(domino, survivorDominoSpaces);
+            else if (zombieDominoSpaces.Contains(space))
+                UpdateDominoChains(domino, zombieDominoSpaces);
         }
 
         private void StartHandSelection()
