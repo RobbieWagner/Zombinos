@@ -1,3 +1,4 @@
+using DG.Tweening;
 using RobbieWagnerGames.Utilities;
 using System;
 using System.Collections;
@@ -19,16 +20,12 @@ namespace RobbieWagnerGames.Zombinos
             return Resources.Load<Sprite>($"Sprites/Domino/{attribute}");
         }
 
-        public IEnumerator UpdateSpriteCo(SpriteRenderer spriteRenderer, int oldValue, int newValue)
+        public IEnumerator UpdateSpriteCo(SpriteRenderer spriteRenderer, int newValue)
         {
-            int min = Math.Min(oldValue, newValue);
-            int max = Math.Max(oldValue, newValue);
-
-            for (int i = min + 1; i <= max; i++)
-            {
-                spriteRenderer.sprite = GetDominoPipSprite(i);
-                yield return new WaitForSeconds(.15f);
-            }
+            Color spriteColor = spriteRenderer.color;
+            yield return spriteRenderer.DOColor(Color.clear, .25f).SetEase(Ease.InCubic).WaitForCompletion();
+            spriteRenderer.sprite = GetDominoPipSprite(newValue);
+            yield return spriteRenderer.DOColor(spriteColor, .25f).SetEase(Ease.OutCubic).WaitForCompletion();
         }
     }
 }

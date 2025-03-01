@@ -28,9 +28,9 @@ namespace RobbieWagnerGames.Zombinos
                 if (offenseCurrentStrength == value)
                     return;
                 int newValue = Math.Clamp(value, 0, Domino.MaxValue);
-                //StartCoroutine(DominoManager.Instance.UpdateSpriteCo(offenseEndImage, offenseCurrentStrength, newValue));
                 offenseCurrentStrength = newValue;
-                offenseEndImage.sprite = DominoManager.GetDominoPipSprite(offenseCurrentStrength);
+                if(offenseCurrentStrength != 0)
+                    StartCoroutine(DominoManager.Instance.UpdateSpriteCo(offenseEndImage, offenseCurrentStrength));
             }
         }
         public SpriteRenderer defenseEndImage;
@@ -46,9 +46,9 @@ namespace RobbieWagnerGames.Zombinos
                 if (defenseCurrentStrength == value)
                     return;
                 int newValue = Math.Clamp(value, 0, Domino.MaxValue);
-                //StartCoroutine(DominoManager.Instance.UpdateSpriteCo(defenseEndImage, defenseCurrentStrength, newValue));
                 defenseCurrentStrength = newValue;
-                defenseEndImage.sprite = DominoManager.GetDominoPipSprite(defenseCurrentStrength);
+                if (defenseCurrentStrength != 0)
+                    StartCoroutine(DominoManager.Instance.UpdateSpriteCo(defenseEndImage, defenseCurrentStrength));
             }
         }
         public Vector3 defaultScale;

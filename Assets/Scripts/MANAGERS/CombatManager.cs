@@ -325,18 +325,16 @@ namespace RobbieWagnerGames.Zombinos
                 if (!dominoChain.Value.Contains(chainDomino))
                     continue;
 
-                switch (dominoChain.Key)
-                { 
-                    case DominoChainType.DEFENSE:
-                        foreach (Domino domino in dominoChain.Value)
-                            domino.DefenseCurrentStrength += dominoChain.Value.Count-1;
-                        break;
-                    case DominoChainType.OFFENSE:
-                        foreach (Domino domino in dominoChain.Value)
-                            domino.OffenseCurrentStrength += dominoChain.Value.Count - 1;
-                        break;
-                    default:
-                        break;
+                if (dominoChain.Key == DominoChainType.DEFENSE)
+                {
+                    foreach (Domino domino in dominoChain.Value)
+                        domino.DefenseCurrentStrength = dominoChain.Value.Select(x => x.DominoConfiguration.defenseEndStrength).Min() + dominoChain.Value.Count - 1;
+                }
+
+                if (dominoChain.Key == DominoChainType.OFFENSE)
+                {
+                    foreach (Domino domino in dominoChain.Value)
+                            domino.OffenseCurrentStrength = dominoChain.Value.Select(x => x.DominoConfiguration.offenseEndStrength).Min() + dominoChain.Value.Count - 1;
                 }
             }
         }
