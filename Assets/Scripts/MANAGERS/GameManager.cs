@@ -20,7 +20,7 @@ namespace RobbieWagnerGames.Zombinos
     public class GameManager : MonoBehaviourSingleton<GameManager>
     {
         #region player party
-        public List<Survivor> playerParty;
+        public List<Survivor> playerParty { get; set; }
         private static List<SurvivorInfo> defaultParty = new List<SurvivorInfo>() 
         { 
             new SurvivorInfo() 
@@ -37,6 +37,9 @@ namespace RobbieWagnerGames.Zombinos
                 maxHP = 20, survivorSpritePath = "Survivor3"
             }
         };
+
+        public List<MapDestinationConfiguration> gameMapConfiguration { get; set; }
+        [SerializeField] private List<MapDestinationConfiguration> defaultMap;
         #endregion
 
         public static Action<GameMode> OnGameModeChanged = (GameMode gameMode) => { };
@@ -116,16 +119,19 @@ namespace RobbieWagnerGames.Zombinos
                     playerParty.Add(survivor);
                 }
             }
+
+            gameMapConfiguration = JsonDataService.Instance.LoadDataRelative(StaticGameStats.mapConfigurationSavePath, defaultMap);
         }
 
         public void SaveGameData()
         {
             JsonDataService.Instance.SaveData(StaticGameStats.partySavePath, playerParty.Select(x => x.survivorInfo));
+            JsonDataService.Instance.SaveData(StaticGameStats.mapConfigurationSavePath, gameMapConfiguration);
         }
 
         public void OpenMap()
         {
-            Map.Instance.BuildMap();
+            Map.Instance.BuildMap(gameMapConfiguration);
         }
 
         public void TriggerCombat(CombatConfiguration combatConfiguration)
@@ -141,6 +147,18 @@ namespace RobbieWagnerGames.Zombinos
                 yield return null;
 
             CombatManager.Instance.StartCombat(combatConfiguration);
+            CombatManager.Instance.OnEndCombat += OnEndCombat;
+        }
+
+        private void OnEndCombat(CombatConfiguration configuration, bool won)
+        {
+            if(won)
+            {
+                foreach (MapDestinationConfiguration destinationConfiguration in gameMapConfiguration.Where(x => x.combatConfiguration.levelName.Equals(configuration.levelName)))
+                    destinationConfiguration.destinationStatus = DestinationStatus.COMPLETED;
+                foreach (MapDestinationConfiguration destinationConfiguration in gameMapConfiguration.Where(x => x.prerequisites.Contains(configuration.levelName)))
+                    destinationConfiguration.prerequisites.Remove(configuration.levelName);
+            }
         }
 
         private void UnloadCombatScene()

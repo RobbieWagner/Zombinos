@@ -27,7 +27,7 @@ namespace RobbieWagnerGames.Zombinos
                     return;
 
                 destinationConfiguration = value;
-                rectTransform.anchoredPosition = destinationConfiguration.mapPosition;
+                rectTransform.anchoredPosition = new Vector2(destinationConfiguration.mapPositionX, destinationConfiguration.mapPositionY);
                 levelName.text = destinationConfiguration.combatConfiguration.levelName;
             }
         }

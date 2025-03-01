@@ -1315,13 +1315,167 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db1c50e313fd24c408d7f279967d9762, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerParty:
-  - survivorInfo: {fileID: 11400000, guid: e788e5c6d4f77cb48a7bf94ae8ffe4f0, type: 2}
-    hp: 20
-  - survivorInfo: {fileID: 11400000, guid: 0555e34ce3dd4ca47b9885c9cc42ec2d, type: 2}
-    hp: 20
-  - survivorInfo: {fileID: 11400000, guid: e83f876dc8915e546af834b8f558a8f5, type: 2}
-    hp: 20
+  defaultMap:
+  - mapPositionX: 500
+    mapPositionY: 375
+    destinationType: 1
+    destinationStatus: 1
+    combatConfiguration:
+      hordeSize: 12
+      hordeDominos:
+      - offenseEndType: 0
+        offenseEndStrength: 3
+        defenseEndType: 0
+        defenseEndStrength: 5
+      - offenseEndType: 0
+        offenseEndStrength: 2
+        defenseEndType: 0
+        defenseEndStrength: 5
+      - offenseEndType: 0
+        offenseEndStrength: 3
+        defenseEndType: 0
+        defenseEndStrength: 4
+      - offenseEndType: 0
+        offenseEndStrength: 4
+        defenseEndType: 0
+        defenseEndStrength: 4
+      - offenseEndType: 0
+        offenseEndStrength: 2
+        defenseEndType: 0
+        defenseEndStrength: 4
+      - offenseEndType: 0
+        offenseEndStrength: 3
+        defenseEndType: 0
+        defenseEndStrength: 3
+      - offenseEndType: 0
+        offenseEndStrength: 4
+        defenseEndType: 0
+        defenseEndStrength: 3
+      - offenseEndType: 0
+        offenseEndStrength: 5
+        defenseEndType: 0
+        defenseEndStrength: 3
+      - offenseEndType: 0
+        offenseEndStrength: 1
+        defenseEndType: 0
+        defenseEndStrength: 6
+      - offenseEndType: 0
+        offenseEndStrength: 2
+        defenseEndType: 0
+        defenseEndStrength: 5
+      combatSceneName: Combat
+      levelName: 1-1
+    prerequisites: []
+  - mapPositionX: 550
+    mapPositionY: 425
+    destinationType: 1
+    destinationStatus: 2
+    combatConfiguration:
+      hordeSize: 15
+      hordeDominos:
+      - offenseEndType: 0
+        offenseEndStrength: 3
+        defenseEndType: 0
+        defenseEndStrength: 5
+      - offenseEndType: 0
+        offenseEndStrength: 3
+        defenseEndType: 0
+        defenseEndStrength: 5
+      - offenseEndType: 0
+        offenseEndStrength: 3
+        defenseEndType: 0
+        defenseEndStrength: 5
+      - offenseEndType: 0
+        offenseEndStrength: 3
+        defenseEndType: 0
+        defenseEndStrength: 5
+      - offenseEndType: 0
+        offenseEndStrength: 3
+        defenseEndType: 0
+        defenseEndStrength: 5
+      - offenseEndType: 0
+        offenseEndStrength: 3
+        defenseEndType: 0
+        defenseEndStrength: 5
+      - offenseEndType: 0
+        offenseEndStrength: 3
+        defenseEndType: 0
+        defenseEndStrength: 5
+      - offenseEndType: 0
+        offenseEndStrength: 3
+        defenseEndType: 0
+        defenseEndStrength: 5
+      - offenseEndType: 0
+        offenseEndStrength: 3
+        defenseEndType: 0
+        defenseEndStrength: 5
+      - offenseEndType: 0
+        offenseEndStrength: 3
+        defenseEndType: 0
+        defenseEndStrength: 5
+      - offenseEndType: 0
+        offenseEndStrength: 3
+        defenseEndType: 0
+        defenseEndStrength: 5
+      - offenseEndType: 0
+        offenseEndStrength: 3
+        defenseEndType: 0
+        defenseEndStrength: 5
+      combatSceneName: Combat
+      levelName: 1-2
+    prerequisites:
+    - 1-1
+  - mapPositionX: 475
+    mapPositionY: 500
+    destinationType: 2
+    destinationStatus: 2
+    combatConfiguration:
+      hordeSize: 20
+      hordeDominos:
+      - offenseEndType: 0
+        offenseEndStrength: 3
+        defenseEndType: 0
+        defenseEndStrength: 5
+      - offenseEndType: 0
+        offenseEndStrength: 2
+        defenseEndType: 0
+        defenseEndStrength: 5
+      - offenseEndType: 0
+        offenseEndStrength: 3
+        defenseEndType: 0
+        defenseEndStrength: 4
+      - offenseEndType: 0
+        offenseEndStrength: 4
+        defenseEndType: 0
+        defenseEndStrength: 4
+      - offenseEndType: 0
+        offenseEndStrength: 2
+        defenseEndType: 0
+        defenseEndStrength: 4
+      - offenseEndType: 0
+        offenseEndStrength: 3
+        defenseEndType: 0
+        defenseEndStrength: 3
+      - offenseEndType: 0
+        offenseEndStrength: 4
+        defenseEndType: 0
+        defenseEndStrength: 3
+      - offenseEndType: 0
+        offenseEndStrength: 5
+        defenseEndType: 0
+        defenseEndStrength: 3
+      - offenseEndType: 0
+        offenseEndStrength: 1
+        defenseEndType: 0
+        defenseEndStrength: 6
+      - offenseEndType: 0
+        offenseEndStrength: 2
+        defenseEndType: 0
+        defenseEndStrength: 5
+      combatSceneName: Combat
+      levelName: 1-3
+    prerequisites:
+    - 1-2
 --- !u!1 &575888776
 GameObject:
   m_ObjectHideFlags: 0
@@ -1775,157 +1929,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvas: {fileID: 845723675}
   mapView: {fileID: 238935531}
-  mapDestinations:
-  - mapPosition: {x: 500, y: 350}
-    destinationType: 1
-    combatConfiguration:
-      hordeSize: 12
-      hordeDominos:
-      - offenseEndType: 0
-        offenseEndStrength: 3
-        defenseEndType: 0
-        defenseEndStrength: 5
-      - offenseEndType: 0
-        offenseEndStrength: 2
-        defenseEndType: 0
-        defenseEndStrength: 5
-      - offenseEndType: 0
-        offenseEndStrength: 3
-        defenseEndType: 0
-        defenseEndStrength: 4
-      - offenseEndType: 0
-        offenseEndStrength: 4
-        defenseEndType: 0
-        defenseEndStrength: 4
-      - offenseEndType: 0
-        offenseEndStrength: 2
-        defenseEndType: 0
-        defenseEndStrength: 4
-      - offenseEndType: 0
-        offenseEndStrength: 3
-        defenseEndType: 0
-        defenseEndStrength: 3
-      - offenseEndType: 0
-        offenseEndStrength: 4
-        defenseEndType: 0
-        defenseEndStrength: 3
-      - offenseEndType: 0
-        offenseEndStrength: 5
-        defenseEndType: 0
-        defenseEndStrength: 3
-      - offenseEndType: 0
-        offenseEndStrength: 1
-        defenseEndType: 0
-        defenseEndStrength: 6
-      - offenseEndType: 0
-        offenseEndStrength: 2
-        defenseEndType: 0
-        defenseEndStrength: 5
-      combatSceneName: Combat
-      levelName: 1-1
-  - mapPosition: {x: 575, y: 450}
-    destinationType: 1
-    combatConfiguration:
-      hordeSize: 15
-      hordeDominos:
-      - offenseEndType: 0
-        offenseEndStrength: 3
-        defenseEndType: 0
-        defenseEndStrength: 5
-      - offenseEndType: 0
-        offenseEndStrength: 3
-        defenseEndType: 0
-        defenseEndStrength: 5
-      - offenseEndType: 0
-        offenseEndStrength: 3
-        defenseEndType: 0
-        defenseEndStrength: 5
-      - offenseEndType: 0
-        offenseEndStrength: 3
-        defenseEndType: 0
-        defenseEndStrength: 5
-      - offenseEndType: 0
-        offenseEndStrength: 3
-        defenseEndType: 0
-        defenseEndStrength: 5
-      - offenseEndType: 0
-        offenseEndStrength: 3
-        defenseEndType: 0
-        defenseEndStrength: 5
-      - offenseEndType: 0
-        offenseEndStrength: 3
-        defenseEndType: 0
-        defenseEndStrength: 5
-      - offenseEndType: 0
-        offenseEndStrength: 3
-        defenseEndType: 0
-        defenseEndStrength: 5
-      - offenseEndType: 0
-        offenseEndStrength: 3
-        defenseEndType: 0
-        defenseEndStrength: 5
-      - offenseEndType: 0
-        offenseEndStrength: 3
-        defenseEndType: 0
-        defenseEndStrength: 5
-      - offenseEndType: 0
-        offenseEndStrength: 3
-        defenseEndType: 0
-        defenseEndStrength: 5
-      - offenseEndType: 0
-        offenseEndStrength: 3
-        defenseEndType: 0
-        defenseEndStrength: 5
-      combatSceneName: Combat
-      levelName: 1-2
-  - mapPosition: {x: 475, y: 600}
-    destinationType: 1
-    combatConfiguration:
-      hordeSize: 20
-      hordeDominos:
-      - offenseEndType: 0
-        offenseEndStrength: 3
-        defenseEndType: 0
-        defenseEndStrength: 5
-      - offenseEndType: 0
-        offenseEndStrength: 2
-        defenseEndType: 0
-        defenseEndStrength: 5
-      - offenseEndType: 0
-        offenseEndStrength: 3
-        defenseEndType: 0
-        defenseEndStrength: 4
-      - offenseEndType: 0
-        offenseEndStrength: 4
-        defenseEndType: 0
-        defenseEndStrength: 4
-      - offenseEndType: 0
-        offenseEndStrength: 2
-        defenseEndType: 0
-        defenseEndStrength: 4
-      - offenseEndType: 0
-        offenseEndStrength: 3
-        defenseEndType: 0
-        defenseEndStrength: 3
-      - offenseEndType: 0
-        offenseEndStrength: 4
-        defenseEndType: 0
-        defenseEndStrength: 3
-      - offenseEndType: 0
-        offenseEndStrength: 5
-        defenseEndType: 0
-        defenseEndStrength: 3
-      - offenseEndType: 0
-        offenseEndStrength: 1
-        defenseEndType: 0
-        defenseEndStrength: 6
-      - offenseEndType: 0
-        offenseEndStrength: 2
-        defenseEndType: 0
-        defenseEndStrength: 5
-      combatSceneName: Combat
-      levelName: 1-3
   mapButtonPrefab: {fileID: 8071161138166566457, guid: 25267891073ac2946a13146866b748d9, type: 3}
+  mapButtonLockedColor: {r: 0.78431374, g: 0.5882353, b: 0.5882353, a: 0.5882353}
+  mapButtonCompleteColor: {r: 0.5882353, g: 0.5882353, b: 0.5882353, a: 1}
 --- !u!1 &847886379
 GameObject:
   m_ObjectHideFlags: 0

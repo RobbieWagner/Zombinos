@@ -22,11 +22,14 @@ namespace RobbieWagnerGames.Zombinos
                     continue;
 
                 if (zombieDomino == null)
+                {
+                    if (hordeCount == 0) continue;
                     HordeCount -= survivorDomino.OffenseCurrentStrength;
+                }
                 else
                 {
                     int power = survivorDomino.OffenseCurrentStrength;
-                    
+
                     if (power >= zombieDomino.DefenseCurrentStrength)
                     {
                         power -= zombieDomino.DefenseCurrentStrength;
@@ -42,10 +45,10 @@ namespace RobbieWagnerGames.Zombinos
                     HordeCount -= power;
                 }
 
-                yield return new WaitForSeconds(1.5f);
+                yield return new WaitForSeconds(1f);
             }
 
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(.5f);
 
             for (int i = 0; i < zombieDominoSpaces.Count; i++)
             {
@@ -56,7 +59,10 @@ namespace RobbieWagnerGames.Zombinos
                     continue;
 
                 if (survivorDomino == null)
+                {
+                    if (currentSurvivors[i].HP == 0) continue;
                     currentSurvivors[i].HP -= zombieDomino.OffenseCurrentStrength;
+                }
                 else
                 {
                     int power = zombieDomino.OffenseCurrentStrength;
@@ -73,13 +79,13 @@ namespace RobbieWagnerGames.Zombinos
                         power = 0;
                     }
 
-                    currentSurvivors[i].HP -= zombieDomino.OffenseCurrentStrength;
+                    currentSurvivors[i].HP -= power;
                 }
 
-                yield return new WaitForSeconds(1.5f);
+                yield return new WaitForSeconds(1f);
             }
 
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(.5f);
             CurrentCombatPhase = CombatPhase.TURN_END;
         }
     }
